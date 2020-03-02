@@ -7,23 +7,23 @@
           <div class="title">
               <img src="../../assets/img/logo_index.png" alt="">
           </div>
-          <!-- 表单 -->
-          <el-form>
-              <!-- 表单容器 -->
-              <el-form-item>
-                  <!-- 表单域 -->
-                  <el-input placeholder="请输入手机号"></el-input>
+          <!-- 表单 绑定model属性(加:才认为是一个变量) 绑定rules属性(表单验证规则)-->
+          <el-form :model="loginForm" :rules="loginRules" style="margin-top:20px">
+              <!-- 表单容器 设置prop属性 prop表示要校验的字段名-->
+              <el-form-item  prop="mobile">
+                  <!-- 表单域 v-model双向绑定-->
+                  <el-input v-model="loginForm.mobile" placeholder="请输入手机号"></el-input>
               </el-form-item>
               <!-- 验证码 -->
-              <el-form-item>
-                  <el-input style="width:60%" placeholder="请输入验证码"></el-input>
+              <el-form-item prop="code">
+                  <el-input v-model="loginForm.code" style="width:60%" placeholder="请输入验证码"></el-input>
                   <!-- 放置一个按钮 -->
                   <el-button style="float:right">发送验证码</el-button>
               </el-form-item>
               <!-- 表单域 -->
-              <el-form-item>
+              <el-form-item prop="checked">
                   <!-- 是否同意该协议规则 -->
-                  <el-checkbox>我已阅读并同意用户协议和隐私条款</el-checkbox>
+                  <el-checkbox v-model="loginForm.checked">我已阅读并同意用户协议和隐私条款</el-checkbox>
               </el-form-item>
               <!-- 登录按钮 -->
               <el-form-item>
@@ -36,7 +36,19 @@
 
 <script>
 export default {
+  data () { // data是一个带返回值的函数，因为每个组件之间都是独立的运行作用域
+    return {
+      // 登录表单的数据
+      loginForm: {
+        mobile: '', // 手机号
+        code: '', // 验证码
+        checked: false// 是否同意用户协议
+      },
+      loginRules: {
 
+      }
+    }
+  }
 }
 </script>
 
@@ -46,11 +58,22 @@ export default {
 .login {
     background-image: url('../../assets/img/abc.jpg');
     height: 100vh;//当前屏幕可视区域分成100份
-    background-size: cover;//自适应当前的屏幕区
     display:flex;
     justify-content: center;//水平居中
     align-items: center;//垂直居中
+    &:before{//伪类before来实现毛玻璃效果
+    //less中 & 的作用，去除层级之间的空格，让本来的嵌套关系变成平级关系
+        content: '123';
+        width: 100%;
+        height: 100%;
+        position: absolute;//脱离文档流
+        background-image: url('../../assets/img/abc.jpg');
+        filter: blur(1.7px);//毛玻璃效果
+        background-size: cover;//自适应当前的屏幕区
+    }
     .login-card{
+        background: rgba(0, 0, 0, 0);  //透明transparent
+        z-index: 2;//加一个层级,z-index实现层级
         width: 440px;
         height: 340px;
     }

@@ -95,7 +95,8 @@ export default {
           method: 'post'// 请求类型post/get/delete/put/patch 默认值是get类型 可全大写可全小写
         }).then(result => {
           // 成功 之后打印结果
-          console.log(result.data)
+          // 把钥匙放在兜里 也就是把token存于 本地缓存
+          window.localStorage.setItem('user-token', result.data.data.token)
         }).catch(() => {
 
         })

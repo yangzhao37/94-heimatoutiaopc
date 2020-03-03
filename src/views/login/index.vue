@@ -45,7 +45,29 @@ export default {
         checked: false// 是否同意用户协议
       },
       loginRules: {
-
+        // required 如果为true表示该字段必填
+        mobile: [{ required: true, message: '您的手机号码不能为空' },
+          {
+            pattern: /^1[3|4|5|7|8][0-9]{9}$/, // 正则表达式
+            message: '您的手机号格式不正确'
+          }], // 手机号的规则
+        code: [{ required: true, message: '您的验证码不能为空' },
+          {
+            pattern: /^\d{6}/, // 要求6个数字
+            message: '验证码应该是6位数字'
+          }], // 验证码的规则
+        // validator自定义校验 required不能校验true/false
+        checked: [{
+          validator: function (rule, value, callback) {
+            // rule是当前的校验规则
+            // value是当前的要校验的字段值
+            // callback是一个回调函数 不论成功或者失败都要执行
+            // 成功执行callback 失败执行callback(new Error('错误信息))
+            // 我们认为 如果value为true 就表示 校验成功 如果value 为false 则表示校验失败
+            // new Error('错误信息') 就是我们提示的错误信息
+            value ? callback() : callback(new Error('您必须同意我们的协议与条款'))
+          }
+        }]// 是否同意的规则
       }
     }
   }

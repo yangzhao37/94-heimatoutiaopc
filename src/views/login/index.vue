@@ -85,6 +85,20 @@ export default {
     // 第二种方法 promise
       this.$refs.loginForm.validate().then(() => {
         // 如果成功通过 校验就会到达then
+        // 通过校验之后 应该做什么事 -> 应该调用登录接口 看看手机号是否正常
+        // this.$axios.get/post/delete/put
+        this.$axios({
+          url: '/authorizations', // 请求地址
+          // params: {}, // 指的是url参数 参数会拼接到url地址上面 常常说的get参数 没有就不用写
+          data: this.loginForm,
+          // data: { ...this.loginForm, checked: null }, // body 请求体参数 常用于post/put/patch
+          method: 'post'// 请求类型post/get/delete/put/patch 默认值是get类型 可全大写可全小写
+        }).then(result => {
+          // 成功 之后打印结果
+          console.log(result.data)
+        }).catch(() => {
+
+        })
       })
     }
   }

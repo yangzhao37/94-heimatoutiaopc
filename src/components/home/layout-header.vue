@@ -13,11 +13,12 @@
       <el-col class="right" :span="12">
           <!-- 再次放置一个 row组件 justify属性水平对齐组方式 align属性垂直对齐方式 -->
           <el-row type="flex" justify="end" align="middle">
-              <img src="http://b-ssl.duitang.com/uploads/item/201511/21/20151121171107_zMZcy.jpeg" alt="">
+              <!-- src加: -->
+              <img :src="userInfo.photo" alt="">
           <!-- 下拉菜单 -->
           <el-dropdown trigger="click">
               <!-- 显示的内容 -->
-              <span>Y小刀</span>
+              <span>{{userInfo.name}}</span>
               <!-- 下拉内容需要做具名插槽dropdown el-dropdown-menu是专门做下拉的组件 -->
               <el-dropdown-menu slot="dropdown">
                   <!-- 下拉选项 el-dropdown-item作为下拉选项的组件 -->
@@ -33,7 +34,24 @@
 
 <script>
 export default {
-
+  data () {
+    return {
+      userInfo: {}// 用户个人信息
+    }
+  },
+  created () {
+    const token = localStorage.getItem('user-token')// 从兜里拿出钥匙 也就是从缓存中取出token
+    // 获取用户的个人信息
+    this.$axios({
+      url: '/user/profile', // 请求地址
+      headers: {
+        Authorization: `Bearer ${token}`// 格式要求 Bearer +token
+      }// 请求头参数 headers放置请求头参数
+    }).then(result => {
+      // 如果加载成功了 我们要将数据赋值给 userInfo
+      this.userInfo = result.data.data
+    })
+  }
 }
 </script>
 

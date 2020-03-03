@@ -102,7 +102,7 @@ export default {
     align-items: center;//垂直居中
     &:before{//伪类before来实现毛玻璃效果
     //less中 & 的作用，去除层级之间的空格，让本来的嵌套关系变成平级关系
-        content: '123';
+        content: '';
         width: 100%;
         height: 100%;
         position: absolute;//脱离文档流
